@@ -1,0 +1,41 @@
+# ── Secrets / credentials (never commit) ──────────────────────────────
+.env
+.env.*
+*.key
+*.pem
+*.p12
+secrets.*
+credentials.*
+settings.json
+.handbook-studio/
+# internal credential helpers / local override files
+*secret*
+*credential*
+
+# ── Python ────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+.venv/
+venv/
+env/
+
+# ── Generated handbook artifacts ──────────────────────────────────────
+.handbook/
+
+# ── Node (if any tooling lands here) ──────────────────────────────────
+node_modules/
+dist/
+
+# ── OS / editor ───────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log
