@@ -260,3 +260,21 @@ Harness_Handbook/
 running the pipelines: `work/`, `site/`, `site_technical_backup/` (generators),
 `runs/` and built `handbook_skills/handbook_skill_*/` (helper). No credentials are
 committed.
+
+---
+
+## Citation
+
+If you use Harness Handbook, please cite:
+
+```bibtex
+@misc{wang2026harnesshandbookmakingevolving,
+      title={Harness Handbook: Making Evolving Agent Harnesses Readable,Navigable, and Editable}, 
+      author={Ruhan Wang and Yucheng Shi and Zongxia Li and Zhongzhi Li and Yue Yu and Junyao Yang and Kishan Panaganti and Haitao Mi and Dongruo Zhou and Leoweiliang},
+      year={2026},
+      eprint={2607.13285},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI},
+      url={https://arxiv.org/abs/2607.13285}, 
+}
+```

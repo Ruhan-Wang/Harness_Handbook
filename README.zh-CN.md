@@ -250,3 +250,21 @@ Harness_Handbook/
 **生成产物不纳入版本库**（已在 `.gitignore` 中忽略），运行流水线即可重新生成：
 生成器的 `work/`、`site/`、`site_technical_backup/`；helper 的 `runs/` 和构建出的
 `handbook_skills/handbook_skill_*/`。仓库中不包含任何凭证。
+
+---
+
+## 引用
+
+如果使用了 Harness Handbook，请引用：
+
+```bibtex
+@misc{wang2026harnesshandbookmakingevolving,
+      title={Harness Handbook: Making Evolving Agent Harnesses Readable,Navigable, and Editable}, 
+      author={Ruhan Wang and Yucheng Shi and Zongxia Li and Zhongzhi Li and Yue Yu and Junyao Yang and Kishan Panaganti and Haitao Mi and Dongruo Zhou and Leoweiliang},
+      year={2026},
+      eprint={2607.13285},
+      archivePrefix={arXiv},
+      primaryClass={cs.AI},
+      url={https://arxiv.org/abs/2607.13285}, 
+}
+```
