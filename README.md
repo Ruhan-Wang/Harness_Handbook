@@ -24,6 +24,27 @@ handbook_as_helper/         use a handbook as a code-agent planner + resync
 
 Each folder has its own detailed `README.md`; this page is the end-to-end guide.
 
+### Demo & examples
+
+- **[Handbook Studio](https://ruhan-wang.github.io/Harness-Handbook/studio/index.html)** — interactive demo for browsing a handbook
+- **[Terminus 2 Handbook](https://ruhan-wang.github.io/Harness-Handbook/terminus-handbook/index.html)** — example handbook generated for Terminus 2
+
+<p align="center">
+  <a href="https://ruhan-wang.github.io/Harness-Handbook/studio/index.html">
+    <img src="assets/handbook-studio.png" alt="Handbook Studio demo" width="720"/>
+  </a>
+  <br/>
+  <em>Handbook Studio</em>
+</p>
+
+<p align="center">
+  <a href="https://ruhan-wang.github.io/Harness-Handbook/terminus-handbook/index.html">
+    <img src="assets/terminus-handbook.png" alt="Terminus 2 example handbook" width="720"/>
+  </a>
+  <br/>
+  <em>Example: Terminus 2 Handbook</em>
+</p>
+
 ---
 
 ## 0. Setup

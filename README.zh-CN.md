@@ -24,6 +24,27 @@ handbook_as_helper/         用 handbook 作为 code agent 的 planner + resync
 
 每个文件夹下都有各自更详细的 `README.md`；本页是端到端的总指南。
 
+### 演示与示例
+
+- **[Handbook Studio](https://ruhan-wang.github.io/Harness-Handbook/studio/index.html)** — 浏览 handbook 的交互演示
+- **[Terminus 2 Handbook](https://ruhan-wang.github.io/Harness-Handbook/terminus-handbook/index.html)** — 为 Terminus 2 生成的示例 handbook
+
+<p align="center">
+  <a href="https://ruhan-wang.github.io/Harness-Handbook/studio/index.html">
+    <img src="assets/handbook-studio.png" alt="Handbook Studio 演示" width="720"/>
+  </a>
+  <br/>
+  <em>Handbook Studio</em>
+</p>
+
+<p align="center">
+  <a href="https://ruhan-wang.github.io/Harness-Handbook/terminus-handbook/index.html">
+    <img src="assets/terminus-handbook.png" alt="Terminus 2 示例 handbook" width="720"/>
+  </a>
+  <br/>
+  <em>示例：Terminus 2 Handbook</em>
+</p>
+
 ---
 
 ## 0. 环境准备
