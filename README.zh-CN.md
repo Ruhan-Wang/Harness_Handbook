@@ -2,6 +2,10 @@
 
 [English](README.md) | **中文**
 
+[![Blog](https://img.shields.io/badge/Blog-105864?style=for-the-badge)](https://ruhan-wang.github.io/Harness-Handbook/)
+[![arXiv](https://img.shields.io/badge/arXiv-2607.13285-b31b1b?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2607.13285)
+[![Hugging Face Daily Paper](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Daily%20Paper-ffd21e?style=for-the-badge)](https://huggingface.co/papers/2607.13285)
+
 把任意代码库转换成一份可导航的 **handbook（手册）**，再用这份手册帮助 code agent
 （代码智能体）找到一次改动需要触及的**每一处**位置。
 
