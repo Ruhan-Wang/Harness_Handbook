@@ -1,0 +1,81 @@
+type: tool
+name: propose_skeleton
+description: >-
+  Propose the STAGE SKELETON for the system handbook — the high-altitude
+  narrative spine of ordered phases the system goes through, from process
+  startup through its main work loop to teardown, followed by cross-cutting
+  concerns.
+
+
+  Call get_orientation first. Then call this with your stage list. You do NOT
+  need to make it perfect or exhaustively detailed — a SHALLOW but well-ordered
+  first draft is what's wanted here. A later automated step will assign every
+  source file to your stages and then enrich/split/merge the skeleton until every
+  file is covered, so focus on getting the lifecycle ORDER and the top-level
+  shape right.
+
+
+  Guidelines:
+
+  - Order main stages by EXECUTION/LIFECYCLE, not alphabetically: start from the
+    entry points, follow setup -> dispatch -> main loop / request handling ->
+    per-unit work -> teardown.
+
+  - Aim for 12-25 top-level stages. Use substages (set "parent" to a stage id,
+    give ids like "stage-3.1") for depth instead of widening the top level.
+
+  - Put genuinely cross-cutting infrastructure (logging/telemetry, config,
+    protocol/types, generic utils, persistence) into stages with
+    "crosscut": true, placed after the main flow.
+
+  - Write each description concretely enough that a later step can decide which
+    files belong to the stage.
+
+
+  Calling this records your skeleton as the current draft and returns a short
+  confirmation (stage count + ids). After it succeeds, you are done — emit your
+  final summary.
+input_schema:
+  type: object
+  properties:
+    metadata:
+      type: object
+      description: >-
+        Optional metadata. Include "archetype": a one-phrase description of the
+        system's shape (e.g. "CLI-driven multi-agent harness").
+      properties:
+        archetype:
+          type: string
+      additionalProperties: true
+    stages:
+      type: array
+      description: The ordered list of stages.
+      items:
+        type: object
+        properties:
+          id:
+            type: string
+            description: >-
+              Unique stage id. Use "stage-N" for top-level and "stage-N.M" for
+              substages.
+          title:
+            type: string
+            description: Short human-readable stage title.
+          description:
+            type: string
+            description: >-
+              2-3 sentences: what this stage covers and its role in the system's
+              execution. Concrete enough to guide file assignment.
+          parent:
+            type: ["string", "null"]
+            description: Parent stage id for a substage, or null for a top-level stage.
+          crosscut:
+            type: boolean
+            description: >-
+              true if this stage is cross-cutting infrastructure spanning phases
+              (logging, config, types, utils, persistence). Place crosscuts after
+              the main flow.
+        required: [id, title, description]
+        additionalProperties: false
+  required: [stages]
+  additionalProperties: false

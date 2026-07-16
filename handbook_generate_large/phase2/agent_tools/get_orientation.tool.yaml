@@ -1,0 +1,18 @@
+type: tool
+name: get_orientation
+description: >-
+  Get a high-level orientation of the codebase you are about to divide into
+  handbook stages. Returns a compact, bounded overview built from the static
+  call graph: the directory map (dir -> files / functions), the entry-point
+  candidates (where execution starts), the highest fan-out files (orchestration
+  suspects), and the external subsystems the code depends on.
+
+
+  Call this FIRST, before proposing a skeleton. It is cheap and idempotent — it
+  takes no arguments and reads nothing from disk. Use it to decide the lifecycle
+  order of your stages (entry points -> setup -> main work -> teardown) and to
+  spot the cross-cutting infrastructure.
+input_schema:
+  type: object
+  properties: {}
+  additionalProperties: false
