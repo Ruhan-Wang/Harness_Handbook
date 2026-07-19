@@ -189,30 +189,29 @@ python handbook_skills/build_skill_from_handbook.py --target codex \
 #    → writes handbook_skills/handbook_skill_codex/ (SKILL.md + references/)
 ```
 
-Then drive the **sub-agent (map-reduce) handbook planner** from
-`pipeline/code_agent_subagent.py`. A parent planner routes with the small handbook
-files (SKILL / index / registers) and delegates every deep read (big stage pages,
-source files) to a `locator` sub-agent that reads each file in its own context and
-returns only a short report — so the parent's context stays small:
+Then drive the **handbook planner** from `pipeline/code_agent.py`. It's a SINGLE
+read-only agent that routes with the navigation handbook (SKILL / index / registers /
+stage pages) and reads the REAL source itself before emitting a precise, verbatim EDIT
+plan — no locator sub-agent, no map-reduce:
 
 ```python
 import sys; sys.path.insert(0, "pipeline")
 from pathlib import Path
-from code_agent_subagent import run_query_subagent   # needs NexAU + the LLM_* env above
+from code_agent import run_query             # needs NexAU + the OPENAI_*/LLM_* env above
 
-out = run_query_subagent(
+out = run_query(
     "<the reviewer's natural-language change request>",
     Path("/path/to/source"),                # the codebase to plan against
-    Path("runs/case1/edited"),              # scratch sandbox (git copy of source, then deleted)
+    Path("runs/case1"),                     # scratch sandbox (git copy of source, then deleted)
     # arm="handbook" by default (the only arm)
 )
 print(out["plan"])                          # the planner's localization plan
 ```
 
-The `handbook` arm **is** this sub-agent planner — the only planner in this repo. It
-runs **plan-only** (it emits the plan; there is no executor/diff phase). `code_agent.py`
-is now just the shared glue it builds on (config loading, the navigation-only handbook
-copy, the git sandbox, the agent runner).
+The `handbook` arm **is** this planner — the only planner in this repo. It runs
+**plan-only** (it emits the plan; there is no executor/diff phase). `code_agent.py` also
+carries the shared glue it builds on (config loading, the navigation-only handbook copy,
+the git sandbox, the agent runner), reused by resync.
 
 ### 2B. Resync a handbook after code changes
 
@@ -250,9 +249,9 @@ Harness_Handbook/
 ├── handbook_generate_large/      large-codebase generator (run.py, phase1/2/3, adapters, build_site.py)
 ├── handbook_generate_small/      small-codebase generator (run.py, phase1/2/3, adapters, project_context.py)
 └── handbook_as_helper/           use a handbook as a planner + resync
-    ├── pipeline/                 code_agent_subagent.py (sub-agent planner), code_agent.py, targets.py, update_handbook.py, resync_*, lang_layer.py
+    ├── pipeline/                 code_agent.py (handbook planner), targets.py, update_handbook.py, resync_*, lang_layer.py
     ├── handbook_skills/          build_skill_from_handbook.py (+ other skill builders)
-    ├── prompts/                  planner_handbook.md (handbook arm parent), locator_subagent.md (locator sub-agent)
+    ├── prompts/                  planner_handbook.md (handbook planner prompt)
     └── rerun_resync.py           resync helper
 ```
 

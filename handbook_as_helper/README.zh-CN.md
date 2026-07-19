@@ -11,7 +11,7 @@
    (function 卡片、行号锚点、代码位点、索引)向前滚动到与改动一致,而无需重新生成整本
    handbook。
 
-> planner 采用 **"recall" 扁平(flat)** 架构:一个**单独的只读 agent** 用 handbook
+> planner 是一个**单独的只读 agent**,用 handbook
 > (`SKILL.md` / `index.md` / `registers.md` / `stages/<id>.md`)做导航,并**亲自读真实源码**,
 > 然后产出精确、逐字节的 EDIT 规划 —— 没有 `locator` 子代理,也没有 map-reduce。这是**唯一**的
 > planner,就实现在 `code_agent.py` 里。(所有评测 / benchmark / 打分相关代码 —— golden 集、
@@ -115,7 +115,7 @@ Python 走 `ast`,Rust / TypeScript / Go / … 走 `handbook_generate_small` 的 
 | 文件 | 作用 |
 |------|------|
 | `pipeline/targets.py` | **目标项目配置层。** 每个项目(`terminus2`、`codex`……)是一个 `Target`:原始源码路径、语言、快照忽略项、prompt 用词。新增项目只改这里,别处不动。 |
-| `pipeline/code_agent.py` | **handbook planner**("recall" 扁平 arm)及其胶水层:加载并对 NexAU 官方 `code_agent.yaml` 做环境变量插值,构建仅含导航的 handbook 副本(`_ensure_nosrc_handbook`)、只读 planner(`_build` / `build_planner`)、一次性 git 沙箱(`_snapshot_git` / `_git_diff`,resync 也在用)以及容错的 agent 运行器(`_run_agent`)。导入时把 `OPENAI_*` 桥接到 `LLM_*`。入口:`run_query(query, pristine_dir, workdir, arm="handbook")`。 |
+| `pipeline/code_agent.py` | **handbook planner**(`handbook` arm)及其胶水层:加载并对 NexAU 官方 `code_agent.yaml` 做环境变量插值,构建仅含导航的 handbook 副本(`_ensure_nosrc_handbook`)、只读 planner(`_build` / `build_planner`)、一次性 git 沙箱(`_snapshot_git` / `_git_diff`,resync 也在用)以及容错的 agent 运行器(`_run_agent`)。导入时把 `OPENAI_*` 桥接到 `LLM_*`。入口:`run_query(query, pristine_dir, workdir, arm="handbook")`。 |
 | `pipeline/update_handbook.py` | **resync 入口。** 传入 case 目录(`edited/` + `plan.md`),把 handbook 向前滚动到该改动(不重跑 agent)。按 `HANDBOOK_GEN_SCALE` 选择成员级/文件级。 |
 | `pipeline/resync_handbook.py` | **成员级 resync 引擎**(A→D:语义滚动 → sha 判定 → 重新分类 → handbook 回写)。 |
 | `pipeline/resync_large.py` | **文件级 resync 引擎**,用于 large 流程的 skill(以整文件为叶子;`HANDBOOK_GEN_SCALE=large`)。 |

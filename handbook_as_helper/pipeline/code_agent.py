@@ -1,6 +1,6 @@
 """code_agent.py — the handbook planner, built on NexAU's official example agent.
 
-This IS the `handbook` arm (the "recall" flat planner): a SINGLE read-only agent that
+This IS the `handbook` arm: a SINGLE read-only agent that
 routes with the navigation handbook (SKILL/index/registers/stage pages) and reads the
 REAL source itself before emitting a precise, verbatim EDIT plan. There is no locator
 sub-agent and no map-reduce — the planner accumulates its own reads. PLAN-ONLY: only the
@@ -90,7 +90,7 @@ HANDBOOK_SKILL = TARGET.handbook_skill
 HANDBOOKS_ROOT = HELPER_ROOT / "handbook_skills"
 HANDBOOK_SKILL_NOSRC_REL = HANDBOOKS_ROOT / f"handbook_skill_nosrc_rel_{TARGET.name}"  # summary + Relations
 PROMPTS = HELPER_ROOT / "prompts"
-# The handbook ("recall" flat) arm's planner prompt: route with the handbook, read the real
+# The handbook arm's planner prompt: route with the handbook, read the real
 # source, emit self-contained verbatim EDIT blocks.
 PLANNER_PROMPT_HANDBOOK = PROMPTS / "planner_handbook.md"
 
@@ -394,7 +394,7 @@ def _build(system_prompt: Path, name: str, use_handbook: bool,
 
 
 def build_planner(arm: str = "handbook") -> Agent:
-    """Read-only handbook ("recall" flat) planner: attaches the navigation handbook
+    """Read-only handbook planner: attaches the navigation handbook
     (summary + Relations) and a prompt that routes via the handbook but reads the REAL
     source before planning. Only the `handbook` arm exists in this repo."""
     if arm != "handbook":
@@ -409,7 +409,7 @@ def build_planner(arm: str = "handbook") -> Agent:
 
 
 def run_query(query: str, pristine_dir: Path, workdir: Path, arm: str = "handbook") -> dict:
-    """Run the handbook ("recall" flat) planner for one query. PLAN-ONLY (no executor).
+    """Run the handbook planner for one query. PLAN-ONLY (no executor).
 
     `pristine_dir` is the codebase to plan against; `workdir` is a scratch sandbox (a git
     copy of pristine, created then deleted). Returns {"plan": <NL plan>, "diff": ""}."""

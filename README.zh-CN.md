@@ -183,28 +183,27 @@ python handbook_skills/build_skill_from_handbook.py --target codex \
 #    → 生成 handbook_skills/handbook_skill_codex/（SKILL.md + references/）
 ```
 
-然后用 `pipeline/code_agent_subagent.py` 驱动 **sub-agent（map-reduce）版 handbook
-planner**：父 planner 用手册里的小文件（SKILL / index / registers）做路由，把每一次
-深读（大的 stage 页、源码文件）委派给一个 `locator` 子 agent——子 agent 在自己的上下文
-里整篇读文件、只回传一份简短报告，从而让父 planner 的上下文保持很小：
+然后用 `pipeline/code_agent.py` 驱动 **handbook planner**：这是一个**单独的只读 agent**，
+用导航手册（SKILL / index / registers / stage 页）做路由，并**亲自读真实源码**，然后产出
+精确、逐字节的 EDIT 计划——没有 `locator` 子 agent，也没有 map-reduce：
 
 ```python
 import sys; sys.path.insert(0, "pipeline")
 from pathlib import Path
-from code_agent_subagent import run_query_subagent   # 需要 NexAU + 上面的 LLM_* 环境变量
+from code_agent import run_query             # 需要 NexAU + 上面的 OPENAI_*/LLM_* 环境变量
 
-out = run_query_subagent(
+out = run_query(
     "<审阅者的自然语言改动请求>",
     Path("/path/to/source"),                # 要规划的目标代码库
-    Path("runs/case1/edited"),              # 临时沙箱（pristine 的 git 副本，跑完即删）
+    Path("runs/case1"),                     # 临时沙箱（pristine 的 git 副本，跑完即删）
     # arm 默认 "handbook"（唯一的 arm）
 )
 print(out["plan"])                          # planner 的定位计划
 ```
 
-`handbook` arm **就是**这个 sub-agent planner，也是本仓库唯一的 planner，为**仅计划
-（plan-only）**模式（只产出计划；没有执行器/diff 阶段）。`code_agent.py` 现在只是它依赖
-的共享 glue（加载配置、构建仅导航版 handbook、git 沙箱、运行 agent）。
+`handbook` arm **就是**这个 planner，也是本仓库唯一的 planner，为**仅计划（plan-only）**
+模式（只产出计划；没有执行器/diff 阶段）。`code_agent.py` 同时也承载它依赖的共享 glue
+（加载配置、构建仅导航版 handbook、git 沙箱、运行 agent），resync 也复用这些。
 
 ### 2B. 代码变更后 resync handbook
 
@@ -241,9 +240,9 @@ Harness_Handbook/
 ├── handbook_generate_large/      大型代码库生成器（run.py, phase1/2/3, adapters, build_site.py）
 ├── handbook_generate_small/      小型代码库生成器（run.py, phase1/2/3, adapters, project_context.py）
 └── handbook_as_helper/           把 handbook 当作 planner 使用 + resync
-    ├── pipeline/                 code_agent_subagent.py（sub-agent planner）, code_agent.py, targets.py, update_handbook.py, resync_*, lang_layer.py
+    ├── pipeline/                 code_agent.py（handbook planner）, targets.py, update_handbook.py, resync_*, lang_layer.py
     ├── handbook_skills/          build_skill_from_handbook.py（及其他 skill 构建脚本）
-    ├── prompts/                  planner_handbook.md（handbook arm 父 prompt）, locator_subagent.md（定位子 agent）
+    ├── prompts/                  planner_handbook.md（handbook planner prompt）
     └── rerun_resync.py           resync 辅助脚本
 ```
 

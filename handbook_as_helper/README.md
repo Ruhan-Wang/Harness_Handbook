@@ -13,7 +13,7 @@ things:
    layer (cards, line anchors, code-sites, index) forward to match the change, without
    regenerating the whole handbook.
 
-> The planner is the **"recall" flat** design: a SINGLE read-only agent routes with the
+> The planner is a SINGLE read-only agent that routes with the
 > handbook (`SKILL.md` / `index.md` / `registers.md` / `stages/<id>.md`) and reads the
 > REAL source itself before emitting a precise, verbatim EDIT plan — no `locator`
 > sub-agent, no map-reduce. This is the **only** planner, and it lives in `code_agent.py`.
@@ -121,7 +121,7 @@ registered adapter. A function-level phase-2 mapping for the target must exist (
 | File | Purpose |
 |------|---------|
 | `pipeline/targets.py` | **Target-project config layer.** Each project (`terminus2`, `codex`, …) is a `Target`: pristine source path, language, snapshot ignores, prompt wording. Add a project here — no other file changes. |
-| `pipeline/code_agent.py` | **The handbook planner** (the "recall" flat arm) plus its glue: loads + env-interpolates NexAU's official `code_agent.yaml`, builds the navigation-only handbook copy (`_ensure_nosrc_handbook`), the read-only planner (`_build` / `build_planner`), the throwaway git sandbox (`_snapshot_git` / `_git_diff`, also used by resync) and the tolerant agent runner (`_run_agent`). Bridges `OPENAI_*` → `LLM_*` on import. Entry point: `run_query(query, pristine_dir, workdir, arm="handbook")`. |
+| `pipeline/code_agent.py` | **The handbook planner** (the `handbook` arm) plus its glue: loads + env-interpolates NexAU's official `code_agent.yaml`, builds the navigation-only handbook copy (`_ensure_nosrc_handbook`), the read-only planner (`_build` / `build_planner`), the throwaway git sandbox (`_snapshot_git` / `_git_diff`, also used by resync) and the tolerant agent runner (`_run_agent`). Bridges `OPENAI_*` → `LLM_*` on import. Entry point: `run_query(query, pristine_dir, workdir, arm="handbook")`. |
 | `pipeline/update_handbook.py` | **Resync entry point.** Takes a case dir (`edited/` + `plan.md`) and rolls the handbook forward to it (no agent re-run). Picks member- vs file-level by `HANDBOOK_GEN_SCALE`. |
 | `pipeline/resync_handbook.py` | **Member-level resync engine** (A→D: semantic roll → sha verdict → reclassify → handbook writeback). |
 | `pipeline/resync_large.py` | **File-level resync engine** for a large-pipeline skill (whole-file leaves; `HANDBOOK_GEN_SCALE=large`). |
