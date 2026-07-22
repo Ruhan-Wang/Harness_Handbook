@@ -1,6 +1,6 @@
 # handbook_generate_small — skeleton-driven handbook pipeline
 
-**English** | [中文](README.zh-CN.md)
+**English** | [中文](README.zh-CN.md) | [Русский](README.ru.md)
 
 A **project-agnostic** three-phase pipeline (static graph → LLM classification → LLM
 narration) with a uniform `LanguageAdapter` front end, so it can target **Python, Rust,

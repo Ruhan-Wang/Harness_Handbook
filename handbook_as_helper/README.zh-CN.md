@@ -1,6 +1,6 @@
 # handbook_as_helper
 
-[English](README.md) | **中文**
+[English](README.md) | **中文** | [Русский](README.ru.md)
 
 用生成好的 **handbook** 来辅助 code agent。本模块只做两件事:
 

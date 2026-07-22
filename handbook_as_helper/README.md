@@ -1,6 +1,6 @@
 # handbook_as_helper
 
-**English** | [中文](README.zh-CN.md)
+**English** | [中文](README.zh-CN.md) | [Русский](README.ru.md)
 
 Use a generated **handbook** to help a code agent. This module does exactly two
 things:
