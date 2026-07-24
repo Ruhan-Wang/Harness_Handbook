@@ -1,6 +1,6 @@
 # Harness Handbook
 
-**English** | [中文](README.zh-CN.md)
+**English** | [中文](README.zh-CN.md) | [Русский](README.ru.md)
 
 [![Blog](https://img.shields.io/badge/Blog-105864?style=for-the-badge)](https://ruhan-wang.github.io/Harness-Handbook/)
 [![arXiv](https://img.shields.io/badge/arXiv-2607.13285-b31b1b?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2607.13285)
@@ -246,6 +246,7 @@ python pipeline/update_handbook.py <case_dir> --no-translate   # skip card trans
 Harness_Handbook/
 ├── README.md                     ← you are here (English)
 ├── README.zh-CN.md               ← 中文版
+├── README.ru.md                  ← русская версия
 ├── handbook_generate_large/      large-codebase generator (run.py, phase1/2/3, adapters, build_site.py)
 ├── handbook_generate_small/      small-codebase generator (run.py, phase1/2/3, adapters, project_context.py)
 └── handbook_as_helper/           use a handbook as a planner + resync

@@ -1,6 +1,6 @@
 # Harness Handbook（代码库手册）
 
-[English](README.md) | **中文**
+[English](README.md) | **中文** | [Русский](README.ru.md)
 
 [![Blog](https://img.shields.io/badge/Blog-105864?style=for-the-badge)](https://ruhan-wang.github.io/Harness-Handbook/)
 [![arXiv](https://img.shields.io/badge/arXiv-2607.13285-b31b1b?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2607.13285)
@@ -237,6 +237,7 @@ python pipeline/update_handbook.py <case_dir> --no-translate   # 跳过卡片翻
 Harness_Handbook/
 ├── README.md                     英文版
 ├── README.zh-CN.md               ← 你在这里（中文）
+├── README.ru.md                  俄文版
 ├── handbook_generate_large/      大型代码库生成器（run.py, phase1/2/3, adapters, build_site.py）
 ├── handbook_generate_small/      小型代码库生成器（run.py, phase1/2/3, adapters, project_context.py）
 └── handbook_as_helper/           把 handbook 当作 planner 使用 + resync

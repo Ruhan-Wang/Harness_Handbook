@@ -1,6 +1,6 @@
 # handbook_generate_small —— 骨架驱动的 handbook 流水线
 
-[English](README.md) | **中文**
+[English](README.md) | **中文** | [Русский](README.ru.md)
 
 一个**项目无关**的三阶段流水线(静态图 → LLM 分类 → LLM 叙述),配统一的 `LanguageAdapter`
 前端,可面向 **Python、Rust、TypeScript、Go**(以及轻量的 Starlark / Shell / PowerShell)。

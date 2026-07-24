@@ -1,6 +1,6 @@
 # handbook_generate_large — file-as-leaf handbook pipeline
 
-**English** | [中文](README.zh-CN.md)
+**English** | [中文](README.zh-CN.md) | [Русский](README.ru.md)
 
 Turns a **large** codebase into a navigable **handbook** (markdown + optional HTML),
 bottom-up, with the **FILE as the leaf node**. Every file is read and described, files

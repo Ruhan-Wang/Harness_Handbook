@@ -1,6 +1,6 @@
 # handbook_generate_large —— 以文件为叶子的 handbook 流水线
 
-[English](README.md) | **中文**
+[English](README.md) | **中文** | [Русский](README.ru.md)
 
 把**大型**代码库自底向上转成一本可导航的 **handbook**(markdown + 可选 HTML),**以文件
 为叶子节点**:读遍并描述每个文件,把文件归入一个有序的 stage 骨架,再从叶子一路向上叙述到
