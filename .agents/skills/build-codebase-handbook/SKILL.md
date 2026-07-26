@@ -60,6 +60,10 @@ Use:
 - Work directory: a task-specific temporary directory outside the output skill.
 - Language: the user's requested language, otherwise English.
 
+Run the bundled utilities with Python 3.10 or newer. They use only the Python
+standard library, so this skill intentionally has no `requirements.txt`. If a future
+version adds a third-party import, add and package a pinned `requirements.txt`.
+
 Make the generated folder independently shareable. Do not import code or templates
 from the source repository or this skill. Do not add a README, build log, scratch
 notes, or source snapshot.
@@ -184,3 +188,23 @@ roll changes upward into `registers.md`, `index.md`, and `overview.md`. Recompil
 coverage and validate again.
 
 Do not rewrite unaffected prose solely for stylistic consistency.
+
+## Package this builder skill for sharing
+
+The builder carries its own Apache-2.0 `LICENSE`, so a ZIP remains licensed when
+detached from this repository. The repository has no `NOTICE` file to propagate.
+
+Create a deterministic archive:
+
+```bash
+python3 "$HANDBOOK_BUILDER_ROOT/scripts/package_skill.py" \
+  --output "<destination>/build-codebase-handbook.zip"
+```
+
+The archive contains one top-level `build-codebase-handbook/` directory and excludes
+caches, temporary files, existing archives, and VCS metadata. It includes
+`requirements.txt` automatically if one exists.
+
+Do not assume the same Apache license applies to handbooks generated from someone
+else's repository. Before distributing a generated handbook, use the license and
+notices authorized by that repository's owner.
