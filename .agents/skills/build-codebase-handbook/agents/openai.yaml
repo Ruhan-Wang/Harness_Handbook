@@ -1,0 +1,4 @@
+interface:
+  display_name: "Build or Use Codebase Handbook"
+  short_description: "Build or use an API-key-free codebase map"
+  default_prompt: "Use $build-codebase-handbook to build or use a planner-ready handbook for this repository task."
