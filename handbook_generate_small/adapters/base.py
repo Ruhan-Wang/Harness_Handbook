@@ -125,16 +125,35 @@ def get_ts_parser(lang: str):
 
 # ---------- tree-sitter node wrapper ----------
 #
-# The installed binding (tree-sitter-language-pack) exposes node accessors as
-# *methods* (node.kind(), node.start_byte(), node.start_position().row) and has
-# no .text/.children/.type. TSNode normalizes all of that into clean property
-# access so the per-language adapters read naturally and stay immune to whether
-# a given accessor is a method or a property across binding versions.
+# Bindings disagree on how node accessors are spelled: py-tree-sitter (what
+# tree-sitter-language-pack builds on) uses properties named .type/.start_point,
+# while other builds expose methods named .kind()/.start_position(). TSNode
+# normalizes both spellings and both call styles into clean property access, so
+# the per-language adapters read naturally and don't break when the binding
+# underneath changes.
 
 
 def _v(x):
     """Return x() if it's callable (method-style binding), else x (property)."""
     return x() if callable(x) else x
+
+
+def _pick(node, *names: str):
+    """Value of the first attribute in `names` that `node` actually has."""
+    for nm in names:
+        val = getattr(node, nm, None)
+        if val is not None:
+            return _v(val)
+    raise AttributeError(
+        f"tree-sitter node ({type(node).__module__}.{type(node).__name__}) "
+        f"exposes none of {names}"
+    )
+
+
+def _row(point) -> int:
+    """Row out of a point, whether it's a Point object or a (row, col) tuple."""
+    r = getattr(point, "row", None)
+    return _v(r) if r is not None else int(point[0])
 
 
 class TSNode:
@@ -150,27 +169,27 @@ class TSNode:
 
     @property
     def kind(self) -> str:
-        return _v(self._n.kind)
+        return _pick(self._n, "kind", "type")
 
     @property
     def start_byte(self) -> int:
-        return _v(self._n.start_byte)
+        return _pick(self._n, "start_byte")
 
     @property
     def end_byte(self) -> int:
-        return _v(self._n.end_byte)
+        return _pick(self._n, "end_byte")
 
     @property
     def start_row(self) -> int:
-        return _v(getattr(_v(self._n.start_position), "row"))
+        return _row(_pick(self._n, "start_point", "start_position"))
 
     @property
     def end_row(self) -> int:
-        return _v(getattr(_v(self._n.end_position), "row"))
+        return _row(_pick(self._n, "end_point", "end_position"))
 
     @property
     def is_named(self) -> bool:
-        return _v(self._n.is_named)
+        return bool(_pick(self._n, "is_named"))
 
     @property
     def text(self) -> str:
@@ -193,9 +212,15 @@ class TSNode:
         return TSNode(c, self._src) if c is not None else None
 
     def children(self) -> list["TSNode"]:
+        kids = getattr(self._n, "children", None)
+        if kids is not None:
+            return [TSNode(c, self._src) for c in _v(kids)]
         return [TSNode(self._n.child(i), self._src) for i in range(self.child_count)]
 
     def named_children(self) -> list["TSNode"]:
+        kids = getattr(self._n, "named_children", None)
+        if kids is not None:
+            return [TSNode(c, self._src) for c in _v(kids)]
         return [TSNode(self._n.named_child(i), self._src) for i in range(self.named_child_count)]
 
     def children_of_kind(self, *kinds: str) -> list["TSNode"]:
@@ -248,11 +273,11 @@ def parse_tree(lang: str, source: str | bytes) -> TSNode:
         src_str = source
         src_bytes = source.encode("utf8")
     parser = get_ts_parser(lang)
-    # Bindings disagree on whether parse() wants str or bytes; try both.
+    # Bindings disagree on whether parse() wants bytes or str; try both.
     try:
-        tree = parser.parse(src_str)
-    except TypeError:
         tree = parser.parse(src_bytes)
+    except (TypeError, ValueError):
+        tree = parser.parse(src_str)
     return TSNode(_v(tree.root_node), src_bytes)
 
 
